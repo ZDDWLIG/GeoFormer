@@ -1,0 +1,10 @@
+# Model checkpoints and generated inference outputs
+checkpoints/
+test_results/
+
+# Local Hugging Face model-card source
+.hf-model-card.md
+
+# Python cache files
+__pycache__/
+*.py[cod]

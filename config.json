@@ -1,0 +1,55 @@
+{
+  "model": {
+    "d_model": 1024,
+    "n_heads": 8,
+    "n_stages": 3,
+    "d_ff": 2048,
+    "coord_dim": 4,
+    "pos_encoding": "rope"
+  },
+  "geom": {
+    "use_geom_mlp": true,
+    "geom_mlp_hidden": 128,
+    "use_adaln": true,
+    "adaln_hidden": 128,
+    "use_multistage_geom": true,
+    "use_geom_attn_bias": true,
+    "geom_attn_bias_temperature": 0.1,
+    "use_global_trace_context": true
+  },
+  "data": {
+    "clip_percentile": 99.0,
+    "norm_mode": "trace",
+    "shot_length": 256,
+    "stride": 64
+  },
+  "bounds": {
+    "coord_lo": [
+      7243.0,
+      87621.0,
+      2132.0,
+      87566.0
+    ],
+    "coord_hi": [
+      55589.0,
+      144726.0,
+      55466.0,
+      144916.0
+    ],
+    "geom_lo": [
+      0.10000000000013642,
+      -37.5
+    ],
+    "geom_hi": [
+      5639.328780094312,
+      32.30000000000001
+    ]
+  },
+  "picking": {
+    "method": "npp",
+    "npp_anchor": "earliest",
+    "threshold": 0.5,
+    "min_len": 3,
+    "sigma": 2.0
+  }
+}
