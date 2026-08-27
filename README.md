@@ -8,13 +8,21 @@
   <img src="https://img.shields.io/badge/Python-3.11-3776AB" alt="Python 3.11">
 </p>
 
-**GeoFormer** is a geometry-aware Transformer for automatic first-break picking in 5D seismic data under strong noise. This repository provides the reproduction code for the paper: model architecture, SEG-Y inference pipeline, first-break picking algorithms, and plotting utilities.
+**GeoFormer** is a Geometry-Aware Transformer architecture specifically designed for prestack seismic data. This repository provides the reproduction code for the paper — model architecture, SEG-Y inference pipeline, first-break picking algorithms, and plotting utilities — with first-arrival picking presented as a representative application.
 
 ---
 
 ## 🧠 Method
 
-GeoFormer is built on a **multi-stage gated Transformer encoder–decoder** that extracts multi-scale features from seismic traces. Per-trace geometric attributes (source/receiver coordinates, offset, elevation) are encoded and fused into the network through geometry-conditioned adaptive layer normalization and geometry-aware attention biases. The output is a per-sample first-break probability mask, from which arrival-time picks are recovered by nearest-point picking (NPP) — yielding accurate picks that remain robust under strong noise.
+We propose **GeoFormer**, a Geometry-Aware Transformer architecture specifically designed for prestack seismic data. Unlike the Vision Transformer, whose tokens are extracted from 2D patches and primarily encode visual patterns, GeoFormer explicitly incorporates acquisition geometry. Each seismic trace is represented by a **5D unit** consisting of the waveform and four source-receiver coordinates, from which two geometric attributes are derived: **offset** and **relative elevation** (receiver elevation minus source elevation). GeoFormer therefore performs **trace-level tokenization**, where each token combines the waveform with these geometric attributes.
+
+To exploit these geometric attributes, GeoFormer introduces **three geometry injection mechanisms** operating at different levels of the Transformer pipeline:
+
+- At the *token* level, **GeomMLP** replaces the classification token with a per-trace geometric representation derived from offset and elevation.
+- At the *normalization* level, **GeomAdaLN** replaces uniform layer normalization with geometry-conditioned feature modulation.
+- At the *attention* level, **GeomAttnBias** injects a parameter-free physical prior that geometrically proximate traces should attend more to each other.
+
+We validate GeoFormer on **first-arrival picking**, a representative seismic processing task that relies heavily on acquisition geometry. Experiments on four field datasets demonstrate that GeoFormer outperforms Vision Transformer and two task-specific baselines. Crucially, GeoFormer maintains robust picking accuracy under strong noise because its trace-level tokens encode geometric attributes that provide a physical prior independent of waveform quality. Ablation studies confirm that GeomMLP, GeomAdaLN, and GeomAttnBias each contribute to GeoFormer's picking accuracy.
 
 <p align="center">
   <img src="assets/model.png" alt="GeoFormer architecture" width="90%">
@@ -119,7 +127,7 @@ Images are saved into the output directory (default: `test_results/`):
 
 | Image | Description |
 |-------|-------------|
-| `seismic.png` | Raw seismic data displayed in grayscale |
+| `seismic.png` | Seismic data |
 | `pred.png` | Predicted first-break picks overlaid as red scatter points |
 
 ## 📖 Citation
