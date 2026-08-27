@@ -1,0 +1,9 @@
+# GeoFormer reproduction environment (tested on Python 3.11)
+# For GPU inference, install a CUDA-enabled PyTorch build first, e.g.:
+#   pip install torch --index-url https://download.pytorch.org/whl/cuXXX
+torch==2.8.0
+numpy==2.3.2
+scipy==1.16.1
+segyio==1.9.14
+matplotlib==3.10.5
+tqdm==4.67.1
